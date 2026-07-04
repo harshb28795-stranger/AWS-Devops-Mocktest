@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Results - {{ quiz_title }}{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <h2>{{ quiz_title }} &ndash; Results</h2>
+</div>
+
+<div class="card result-card mx-auto" style="max-width: 640px;">
+    <div class="card-body p-4 text-center">
+
+        {% if passed %}
+            <i class="bi bi-patch-check-fill display-3 text-success mb-2"></i>
+            <h3 class="text-success fw-bold">PASS</h3>
+        {% else %}
+            <i class="bi bi-exclamation-octagon-fill display-3 text-danger mb-2"></i>
+            <h3 class="text-danger fw-bold">FAIL</h3>
+        {% endif %}
+
+        <p class="text-muted">
+            Passing score is {{ pass_threshold }}% or higher.
+        </p>
+
+        <div class="row g-3 my-4 text-start">
+            <div class="col-6">
+                <div class="result-stat">
+                    <div class="result-stat-label">Total Questions</div>
+                    <div class="result-stat-value">{{ total_questions }}</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="result-stat">
+                    <div class="result-stat-label">Percentage</div>
+                    <div class="result-stat-value">{{ percentage }}%</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="result-stat">
+                    <div class="result-stat-label text-success">Correct Answers</div>
+                    <div class="result-stat-value text-success">{{ correct_count }}</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="result-stat">
+                    <div class="result-stat-label text-danger">Wrong Answers</div>
+                    <div class="result-stat-value text-danger">{{ wrong_count }}</div>
+                </div>
+            </div>
+            {% if unanswered_count > 0 %}
+            <div class="col-12">
+                <div class="result-stat">
+                    <div class="result-stat-label text-warning">Unanswered</div>
+                    <div class="result-stat-value text-warning">{{ unanswered_count }}</div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Score progress bar -->
+        <div class="progress mb-4" style="height: 18px;">
+            <div class="progress-bar {{ 'bg-success' if passed else 'bg-danger' }}"
+                 role="progressbar" style="width: {{ percentage }}%;">
+                {{ percentage }}%
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{{ url_for('main.restart_quiz') }}" class="btn btn-aws-primary">
+                <i class="bi bi-arrow-repeat"></i> Restart Quiz
+            </a>
+            <a href="{{ url_for('main.home') }}" class="btn btn-aws-outline">
+                <i class="bi bi-house-fill"></i> Home
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

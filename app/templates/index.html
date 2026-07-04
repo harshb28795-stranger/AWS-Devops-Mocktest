@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Home - AWS DevOps Professional Mock Test Lab{% endblock %}
+
+{% block content %}
+<div class="hero-section text-center p-5 mb-4 rounded-3">
+    <i class="bi bi-clouds display-1 mb-3"></i>
+    <h1 class="display-5 fw-bold">AWS DevOps Professional Mock Test Lab</h1>
+    <p class="lead col-lg-8 mx-auto">
+        Sharpen your skills for the AWS Certified DevOps Engineer &ndash; Professional
+        exam with realistic, scenario-based practice questions covering CI/CD,
+        configuration management, observability, incident response, high
+        availability, and security.
+    </p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
+        <a href="{{ url_for('main.start_quiz_all') }}" class="btn btn-lg btn-aws-primary">
+            <i class="bi bi-play-fill"></i> Start Quiz
+        </a>
+        <a href="{{ url_for('main.categories') }}" class="btn btn-lg btn-aws-outline">
+            <i class="bi bi-collection"></i> Categories
+        </a>
+    </div>
+</div>
+
+<!-- Quick stats -->
+<div class="row text-center g-4 mb-5">
+    <div class="col-md-6">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <i class="bi bi-question-circle-fill fs-1 text-aws-blue"></i>
+                <h2 class="mt-2">{{ total_questions }}</h2>
+                <p class="text-muted mb-0">Practice Questions</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <i class="bi bi-diagram-3-fill fs-1 text-aws-orange"></i>
+                <h2 class="mt-2">{{ total_categories }}</h2>
+                <p class="text-muted mb-0">Exam Domains</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- About section -->
+<div class="card about-card">
+    <div class="card-body p-4">
+        <h3 class="card-title"><i class="bi bi-info-circle-fill text-aws-blue"></i> About This Lab</h3>
+        <p class="card-text">
+            This mock test lab is designed to help engineers prepare for the
+            <strong>AWS Certified DevOps Engineer &ndash; Professional</strong> certification.
+            Each question is based on real-world AWS DevOps scenarios and comes
+            with a detailed explanation so you understand not just the correct
+            answer, but the reasoning behind it.
+        </p>
+        <ul class="mb-0">
+            <li>Practice one question at a time with instant feedback.</li>
+            <li>Review detailed explanations for every question.</li>
+            <li>Track your score and see whether you would pass.</li>
+            <li>Focus your study by choosing a specific exam domain.</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

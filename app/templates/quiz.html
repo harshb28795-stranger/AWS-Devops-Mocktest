@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}{{ quiz_title }} - Question {{ index + 1 }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+    <h4 class="mb-0">{{ quiz_title }}</h4>
+    <span class="badge bg-secondary fs-6">Question {{ index + 1 }} of {{ total }}</span>
+</div>
+
+<!-- Progress bar -->
+<div class="progress mb-4" style="height: 12px;">
+    <div class="progress-bar aws-progress-bar" role="progressbar"
+         style="width: {{ progress_percent }}%;"
+         aria-valuenow="{{ progress_percent }}" aria-valuemin="0" aria-valuemax="100">
+    </div>
+</div>
+
+<div class="card question-card">
+    <div class="card-body p-4">
+        <h5 class="card-title mb-4">{{ question.question_text }}</h5>
+
+        <form method="POST" action="{{ url_for('main.check_answer', index=index) }}" id="quizForm">
+            <div class="list-group mb-4">
+                {% for letter, text in options.items() %}
+                    {% set is_this_correct = (letter == question.correct_answer) %}
+                    {% set is_this_selected = (letter == selected_answer) %}
+
+                    <label class="list-group-item option-row
+                        {% if is_checked and is_this_correct %} option-correct{% endif %}
+                        {% if is_checked and is_this_selected and not is_this_correct %} option-incorrect{% endif %}
+                        {% if not is_checked %} option-selectable{% endif %}
+                    ">
+                        <input
+                            class="form-check-input me-2"
+                            type="radio"
+                            name="selected_option"
+                            value="{{ letter }}"
+                            {% if is_this_selected %}checked{% endif %}
+                            {% if is_checked %}disabled{% endif %}
+                            required
+                        >
+                        <strong>{{ letter }}.</strong> {{ text }}
+                        {% if is_checked and is_this_correct %}
+                            <i class="bi bi-check-circle-fill text-success float-end"></i>
+                        {% elif is_checked and is_this_selected %}
+                            <i class="bi bi-x-circle-fill text-danger float-end"></i>
+                        {% endif %}
+                    </label>
+                {% endfor %}
+            </div>
+
+            {% if not is_checked %}
+                <button type="submit" class="btn btn-aws-primary">
+                    <i class="bi bi-check2-square"></i> Check Answer
+                </button>
+            {% endif %}
+        </form>
+
+        {% if is_checked %}
+            {% if is_correct %}
+                <div class="alert alert-success mt-3">
+                    <i class="bi bi-check-circle-fill"></i> <strong>Correct!</strong>
+                </div>
+            {% else %}
+                <div class="alert alert-danger mt-3">
+                    <i class="bi bi-x-circle-fill"></i> <strong>Incorrect.</strong>
+                    The correct answer is <strong>{{ question.correct_answer }}</strong>.
+                </div>
+            {% endif %}
+            <div class="explanation-box p-3 mt-2">
+                <h6 class="fw-bold"><i class="bi bi-lightbulb-fill text-aws-orange"></i> Explanation</h6>
+                <p class="mb-0">{{ question.explanation }}</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Navigation -->
+<div class="d-flex justify-content-between mt-4">
+    <a href="{{ url_for('main.quiz_question', index=index - 1) }}"
+       class="btn btn-aws-outline {% if index == 0 %}disabled{% endif %}">
+        <i class="bi bi-arrow-left"></i> Previous
+    </a>
+
+    {% if is_checked %}
+        {% if is_last_question %}
+            <a href="{{ url_for('main.finish_quiz') }}" class="btn btn-aws-primary">
+                <i class="bi bi-flag-fill"></i> Finish Quiz
+            </a>
+        {% else %}
+            <a href="{{ url_for('main.quiz_question', index=index + 1) }}" class="btn btn-aws-primary">
+                Next <i class="bi bi-arrow-right"></i>
+            </a>
+        {% endif %}
+    {% else %}
+        <button class="btn btn-aws-outline" disabled title="Check your answer first">
+            Next <i class="bi bi-arrow-right"></i>
+        </button>
+    {% endif %}
+</div>
+{% endblock %}
