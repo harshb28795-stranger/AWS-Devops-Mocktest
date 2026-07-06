@@ -1,0 +1,2 @@
+[appserver]
+app01 ansible_host=192.168.1.64 ansible_user=Rushabh

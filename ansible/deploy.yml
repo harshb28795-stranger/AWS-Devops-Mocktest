@@ -1,0 +1,31 @@
+---
+- name: Deploy AWS Mock Test
+  hosts: appserver
+  gather_facts: yes
+
+  tasks:
+
+    - name: Create application directory
+      become: yes
+      file:
+        path: /opt/aws-mock-test
+        state: directory
+        owner: Rushabh
+        group: Rushabh
+        mode: '0755'
+
+    - name: Copy artifact
+      copy:
+        src: ../artifacts/aws-mock-test.tar.gz
+        dest: /opt/aws-mock-test/aws-mock-test.tar.gz
+
+    - name: Extract artifact
+      unarchive:
+        src: /opt/aws-mock-test/aws-mock-test.tar.gz
+        dest: /opt/aws-mock-test/
+        remote_src: yes
+
+    - name: Delete tar file
+      file:
+        path: /opt/aws-mock-test/aws-mock-test.tar.gz
+        state: absent

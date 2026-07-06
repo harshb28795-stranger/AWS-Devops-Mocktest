@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Environment
+venv/
+
+# Database
+instance/*.db
+
+# Logs
+*.log
+
+# Reports
+reports/
+
+# Artifacts
+artifacts/
+
+# pytest cache
+.pytest_cache/
+
+# VS Code
+.vscode/
+
+# IDE
+.idea/
